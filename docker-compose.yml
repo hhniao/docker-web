@@ -1,0 +1,35 @@
+networks:
+  net_default:
+    ipam:
+      config:
+      - {subnet: 172.18.1.0/28}
+      driver: default
+services:
+  nginx-php-fpm:
+    container_name: nginx
+    extra_hosts: ['redis:172.18.1.3', 'redis_1:172.18.1.4']
+    image: richarvey/nginx-php-fpm:latest
+    networks:
+      net_default: {ipv4_address: 172.18.1.2}
+    ports: ['80:80', '89:89', '9000:9000', '443:443']
+    restart: always
+    volumes: ['C:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', 'C:/docker/web/nginx/conf:/etc/nginx/:ro']
+  redis:
+    command: redis-server /etc/redis/redis.conf
+    container_name: redis
+    image: redis
+    networks:
+      net_default: {ipv4_address: 172.18.1.3}
+    ports: ['6379:6379']
+    restart: always
+    volumes: ['./redis/redis.conf:/etc/redis/redis.conf']
+  redis_1:
+    command: redis-server /etc/redis/redis.conf
+    container_name: redis_1
+    image: redis
+    networks:
+      net_default: {ipv4_address: 172.18.1.4}
+    ports: ['6380:6380']
+    restart: always
+    volumes: ['./redis_1/redis.conf:/etc/redis/redis.conf']
+version: '2'
