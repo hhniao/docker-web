@@ -13,7 +13,7 @@ services:
       net_default: {ipv4_address: 172.18.1.2}
     ports: ['80:80', '89:89', '9000:9000', '443:443']
     restart: always
-    volumes: ['C:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', './nginx/etc/nginx/:/etc/nginx/:ro','./nginx/usr/local/etc/php:/usr/local/etc/php:rw']
+    volumes: ['C:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', './nginx/etc/nginx/:/etc/nginx/:ro','./nginx/usr/local/etc:/usr/local/etc:rw']
   redis:
     command: redis-server /etc/redis/redis.conf
     container_name: redis
