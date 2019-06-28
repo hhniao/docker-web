@@ -12,9 +12,14 @@ services:
     # build: C:/docker/web/nginx/build
     environment: 
       SKIP_CHOWN: 1
+      ENABLE_XDEBUG: 1
+      XDEBUG_CONFIG: 
+        remote_host=192.168.2.250
+        remote_port=9001
+      PHP_IDE_CONFIG: serverName=teamb
     networks:
       net_default: {ipv4_address: 172.18.1.2}
-    ports: ['80:80', '89:89', '9000:9000', '443:443']
+    ports: ['80:80', '89:89', '9000:9000','443:443']
     restart: always
     volumes: ['C:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', './nginx/etc/nginx/:/etc/nginx/:ro','./nginx/usr/local/etc/php:/usr/local/etc/php:rw']
   nginx-php7.1.12:
@@ -66,4 +71,19 @@ services:
     # Port is not required to be exposed, but recommend for debug purpose
     ports:
       - "3306:3306"
+  node:
+    image: node
+    container_name: node
+    volumes: ['C:/phpStudy/PHPTutorial/WWW/grpc-master/examples:/home/node/examples/:rw']
+    networks:
+      net_default: {ipv4_address: 172.18.1.8}
+    ports: ['10051:10051']
+    command: node
+    user: "node"
+    working_dir: /home/node/examples/node
+    environment:
+      - NODE_ENV=production
+      - NPM_CONFIG_PREFIX=/home/node/.npm-global
+      - PATH=$PATH:/home/node/.npm-global/bin
+    command: "/usr/local/bin/node ./static_codegen/greeter_server.js &"
 version: '2'
