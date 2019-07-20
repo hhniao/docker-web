@@ -9,7 +9,7 @@ services:
     container_name: nginx
     extra_hosts: ['redis:172.18.1.3', 'redis_1:172.18.1.4']
     image: liux156/nginx-php7.3.5
-    # build: C:/docker/web/nginx/build
+    # build: d:/docker/web/nginx/build
     environment: 
       SKIP_CHOWN: 1
       ENABLE_XDEBUG: 1
@@ -21,12 +21,12 @@ services:
       net_default: {ipv4_address: 172.18.1.2}
     ports: ['80:80', '89:89', '9000:9000','443:443']
     restart: always
-    volumes: ['C:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', './nginx/etc/nginx/:/etc/nginx/:ro','./nginx/usr/local/etc/php:/usr/local/etc/php:rw']
+    volumes: ['d:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', './nginx/etc/nginx/:/etc/nginx/:ro','./nginx/usr/local/etc/php:/usr/local/etc/php:rw']
   nginx-php7.1.12:
     container_name: nginx-php7.1.12
     extra_hosts: ['redis:172.18.1.3', 'redis_1:172.18.1.4']
     image: liux156/nginx-php7.1.12
-    # build: C:/docker/web/nginx/build
+    # build: d:/docker/web/nginx/build
     environment: 
       SKIP_CHOWN: 1
       ERRORS: 1
@@ -34,7 +34,7 @@ services:
       net_default: {ipv4_address: 172.18.1.6}
     ports: ['81:80','8443:443']
     restart: always
-    volumes: ['C:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', './nginx-php7.1.12/etc/nginx/:/etc/nginx/:ro','./nginx-php7.1.12/usr/local/etc/php:/usr/local/etc/php:rw']
+    volumes: ['d:/phpStudy/PHPTutorial/WWW:/var/www/html/:rw', './nginx-php7.1.12/etc/nginx/:/etc/nginx/:ro','./nginx-php7.1.12/usr/local/etc/php:/usr/local/etc/php:rw']
   redis:
     command: redis-server /etc/redis/redis.conf
     container_name: redis
@@ -72,9 +72,10 @@ services:
     ports:
       - "3306:3306"
   node:
-    image: node
+    # image: node
+    build: ./node
     container_name: node
-    volumes: ['C:/phpStudy/PHPTutorial/WWW/grpc-master/examples:/home/node/examples/:rw']
+    volumes: ['d:/phpStudy/PHPTutorial/WWW/grpc-master/examples:/home/node/examples/:rw']
     networks:
       net_default: {ipv4_address: 172.18.1.8}
     ports: ['10051:10051']
@@ -83,7 +84,5 @@ services:
     working_dir: /home/node/examples/node
     environment:
       - NODE_ENV=production
-      - NPM_CONFIG_PREFIX=/home/node/.npm-global
-      - PATH=$PATH:/home/node/.npm-global/bin
     command: "/usr/local/bin/node ./static_codegen/greeter_server.js &"
 version: '2'
