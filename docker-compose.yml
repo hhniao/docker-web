@@ -11,8 +11,10 @@ services:
     image: liux156/nginx-php7.3.5
     # build: d:/docker/web/nginx/build
     environment: 
+      ERRORS: 1
       SKIP_CHOWN: 1
-      ENABLE_XDEBUG: 1
+      PHP_MEM_LIMIT: 512
+      # ENABLE_XDEBUG: 1
       XDEBUG_CONFIG: 
         remote_host=192.168.2.250
         remote_port=9001
@@ -75,14 +77,14 @@ services:
     # image: node
     build: ./node
     container_name: node
-    volumes: ['d:/phpStudy/PHPTutorial/WWW/grpc-master/examples:/home/node/examples/:rw']
+    volumes: ['d:/phpStudy/PHPTutorial/WWW/grpc-master/:/home/node/grpc-master/:rw']
     networks:
       net_default: {ipv4_address: 172.18.1.8}
     ports: ['10051:10051']
     command: node
     user: "node"
-    working_dir: /home/node/examples/node
+    working_dir: /home/node/grpc-master/examples/node
     environment:
       - NODE_ENV=production
-    command: "/usr/local/bin/node ./static_codegen/greeter_server.js &"
+    command: "/usr/local/bin/node ./static_codegen/route_guide/route_guide_server.js --db_path=./static_codegen/route_guide/route_guide_db.json &"
 version: '2'
